@@ -3,16 +3,17 @@
 import {
   Controller,
   Post,
+  // Get,
   Body,
   Headers,
   UnauthorizedException,
-  UseGuards,
   HttpCode,
+  UseGuards,
   HttpStatus,
 } from '@nestjs/common';
 import { DriversService } from './drivers.service';
 import { CreateDriverDto } from './dto/create-driver.dto';
-import { AuthGuard } from '@nestjs/passport'; // Add this import
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('drivers')
 export class DriversController {
@@ -55,4 +56,9 @@ export class DriversController {
     // return (({ pan_details, ...driverData }) => driverData)(driver);
     return (({ ...driverData }) => driverData)(driver);
   }
+
+  //   @Get()
+  //   getAllDrivers() {
+  //     return this.driversService.findAll();
+  //   }
 }

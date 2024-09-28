@@ -7,7 +7,7 @@ export class CreatePanDetailDto {
   @Matches(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, {
     message: 'PAN number must be in the format ABCDE1234F',
   })
-  apn: string; // Will be encrypted
+  pan: string; // Will be encrypted
 
   @IsOptional()
   @IsString()

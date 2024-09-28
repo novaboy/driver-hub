@@ -19,7 +19,7 @@ export class PanDetail {
   driver_id: number;
 
   @Column({ type: 'text' })
-  apn: string; // Encrypted PAN number
+  pan: string; // Encrypted PAN number
 
   @Column({ length: 100, nullable: true })
   issued_at: string;
