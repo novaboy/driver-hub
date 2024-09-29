@@ -21,7 +21,7 @@ export class Driver {
   @Column({ length: 100 })
   last_name: string;
 
-  @Column({ length: 50, unique: true })
+  @Column({ length: 50, unique: true, nullable: true })
   license_number: string;
 
   @Column({ length: 15, nullable: true })
@@ -43,7 +43,8 @@ export class Driver {
   updated_at: Date;
 
   @OneToMany(() => PanDetail, (panDetail) => panDetail.driver, {
-    cascade: true,
+    cascade: true, // Enables cascading operations
+    eager: true, // Automatically loads PanDetails when fetching a Driver
   })
   pan_details: PanDetail[];
 }

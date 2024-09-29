@@ -5,9 +5,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 // import { typeOrmConfig } from './config/database.config';
+import { AuthModule } from './auth/auth.module';
 import { DriversModule } from './drivers/drivers.module';
-import { AppService } from './app.service';
-import { AppController } from './app.controller';
 import { CreateDriverDto } from './drivers/dto/create-driver.dto';
 import { CreatePanDetailDto } from './drivers/dto/create-pan-detail.dto';
 
@@ -34,8 +33,9 @@ import { CreatePanDetailDto } from './drivers/dto/create-pan-detail.dto';
       }),
     }),
     DriversModule,
+    AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

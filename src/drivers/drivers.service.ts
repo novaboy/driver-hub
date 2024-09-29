@@ -39,6 +39,7 @@ export class DriversService {
     );
     let encrypted = cipher.update(text);
     encrypted = Buffer.concat([encrypted, cipher.final()]);
+    console.debug('Encrypted PAN:', encrypted);
     return iv.toString('hex') + ':' + encrypted.toString('hex');
   }
 
@@ -60,7 +61,7 @@ export class DriversService {
   async create(createDriverDto: CreateDriverDto): Promise<Driver> {
     // Encrypt PAN numbers
     const encryptedPanDetails = createDriverDto.pan_details.map((pan) => ({
-      apn: this.encrypt(pan.pan),
+      pan: this.encrypt(pan.pan),
       issued_at: pan.issued_at,
       issued_date: pan.issued_date,
     }));

@@ -7,6 +7,7 @@ import {
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
+  JoinColumn,
 } from 'typeorm';
 import { Driver } from './driver.entity';
 
@@ -18,7 +19,7 @@ export class PanDetail {
   @Column()
   driver_id: number;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: false })
   pan: string; // Encrypted PAN number
 
   @Column({ length: 100, nullable: true })
@@ -34,7 +35,9 @@ export class PanDetail {
   updated_at: Date;
 
   @ManyToOne(() => Driver, (driver) => driver.pan_details, {
-    onDelete: 'CASCADE',
+    nullable: false, // Ensures driver_id cannot be null
+    onDelete: 'CASCADE', // Optional: Specifies behavior on driver deletion
   })
+  @JoinColumn({ name: 'driver_id' }) // Specifies the foreign key column
   driver: Driver;
 }
