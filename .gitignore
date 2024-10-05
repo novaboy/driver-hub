@@ -41,6 +41,7 @@ lerna-debug.log*
 .env.test.local
 .env.production.local
 .env.local
+.env.dev.local
 
 # temp directory
 .temp
@@ -64,4 +65,3 @@ docker-compose.yml
 .dockerignore
 .git
 .prettierrc
-.env.dev.local
