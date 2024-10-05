@@ -1,26 +1,24 @@
-// src/drivers/dto/create-driver.dto.ts
+// src/dto/create-entity.dto.ts
 
 import {
   IsString,
   IsOptional,
   IsEmail,
   IsDateString,
-  IsArray,
+  IsInt,
+  Min,
   ValidateNested,
   ArrayNotEmpty,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { CreatePanDetailDto } from '../dto/create-pan-detail.dto';
+import { CreatePanDetailDto } from './create-pan-detail.dto';
 
-export class CreateDriverDto {
+export class CreateEntityDto {
   @IsString()
   first_name: string;
 
   @IsString()
   last_name: string;
-
-  @IsString()
-  license_number: string;
 
   @IsOptional()
   @IsString()
@@ -38,9 +36,13 @@ export class CreateDriverDto {
   @IsDateString()
   date_of_birth?: Date;
 
-  @IsArray()
+  @IsInt()
+  @Min(1)
+  entity_type_id: number; // Reference to EntityType
+
+  @IsOptional()
   @ArrayNotEmpty()
   @ValidateNested({ each: true })
   @Type(() => CreatePanDetailDto)
-  pan_details: CreatePanDetailDto[];
+  pan_details?: CreatePanDetailDto[];
 }

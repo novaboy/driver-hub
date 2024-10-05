@@ -1,14 +1,15 @@
 // src/app.module.ts
 
 import { Module } from '@nestjs/common';
+import { EntitiesModule } from './entities.module';
+import { QRCodeModule } from './qr-code.module';
 // import { OnModuleInit } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 // import { typeOrmConfig } from './config/database.config';
 import { AuthModule } from './auth/auth.module';
-import { DriversModule } from './drivers/drivers.module';
-import { CreateDriverDto } from './drivers/dto/create-driver.dto';
-import { CreatePanDetailDto } from './drivers/dto/create-pan-detail.dto';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -16,15 +17,17 @@ import { CreatePanDetailDto } from './drivers/dto/create-pan-detail.dto';
       isGlobal: true,
       envFilePath: ['.env.dev.local'], // Customize as needed
     }),
-    TypeOrmModule.forFeature([CreateDriverDto, CreatePanDetailDto]),
+
+    // Configure TypeORM
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      //useFactory: typeOrmConfig,
       useFactory: async (configService: ConfigService) => ({
-        type: 'postgres',
+        type:
+          configService.get<'postgres' | 'mysql' | 'postgres'>('DB_TYPE') ||
+          'postgres',
         host: configService.get<string>('DATABASE_HOST'),
-        port: parseInt(configService.get<string>('DATABASE_PORT'), 10),
+        port: configService.get<number>('DATABASE_PORT'),
         username: configService.get<string>('DATABASE_USER'),
         password: configService.get<string>('DATABASE_PASSWORD'), // Ensure this is a string
         database: configService.get<string>('DATABASE_NAME'),
@@ -32,8 +35,13 @@ import { CreatePanDetailDto } from './drivers/dto/create-pan-detail.dto';
         synchronize: true, // Disable in production
       }),
     }),
-    DriversModule,
     AuthModule,
+    QRCodeModule,
+    EntitiesModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+      serveRoot: '/public/', // URL prefix
+    }),
   ],
   controllers: [],
   providers: [],

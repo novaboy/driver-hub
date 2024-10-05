@@ -1,8 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
+import { join } from 'path';
+import { NestExpressApplication } from '@nestjs/platform-express';
+
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: ['error', 'warn', 'log'],
   });
 
@@ -27,6 +30,14 @@ async function bootstrap() {
 
   console.log('DATABASE_NAME:', configService.get<string>('DATABASE_NAME'));
   console.log('------------------------------');
+
+  // Serve static files from the 'public' directory
+  app.useStaticAssets(join(__dirname, '..', 'public'), {
+    prefix: '/public/', // URL prefix
+  });
+
+  // Enable CORS if needed
+  app.enableCors();
 
   await app.listen(3000);
   console.log('Application is running on: http://localhost:3000');

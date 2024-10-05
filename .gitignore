@@ -63,3 +63,5 @@ Dockerfile
 docker-compose.yml
 .dockerignore
 .git
+.prettierrc
+.env.dev.local

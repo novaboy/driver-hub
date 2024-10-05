@@ -2,8 +2,8 @@
 
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
-import { CreateDriverDto } from '../drivers/dto/create-driver.dto';
-import { CreatePanDetailDto } from '../drivers/dto/create-pan-detail.dto';
+import { CreateEntityDto } from '../dto/create-entity.dto';
+import { CreatePanDetailDto } from '../dto/create-pan-detail.dto';
 
 export const typeOrmConfig = (
   configService: ConfigService,
@@ -15,6 +15,6 @@ export const typeOrmConfig = (
   password: configService.get<string>('DATABASE_PASSWORD'),
   database: configService.get<string>('DATABASE_NAME'),
   //entities: [__dirname + '/../**/*.entity.{js,ts}'],
-  entities: [CreateDriverDto, CreatePanDetailDto],
+  entities: [CreateEntityDto, CreatePanDetailDto],
   synchronize: true, // Set to false in production and use migrations
 });
